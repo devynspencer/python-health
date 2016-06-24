@@ -15,9 +15,7 @@ def is_stale(file):
     return stale_at(time.time(), args.threshold) > modified_at(file)
 
 def list_stale(files):
-    stale_files = []
-    [stale_files.append(file) for file in files if is_stale(file)]
-    return stale_files
+    return [f for f in files if is_stale(f)]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Check for unmodified files within a time frame.")
