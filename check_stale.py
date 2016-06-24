@@ -14,7 +14,7 @@ def modified_at(file):
 def is_stale(file):
     return stale_at(time.time(), args.threshold) > modified_at(file)
 
-def stale_files(files):
+def list_stale(files):
     stale_files = []
     [stale_files.append(file) for file in files if is_stale(file)]
     return stale_files
@@ -25,6 +25,6 @@ if __name__ == "__main__":
     parser.add_argument("files", default=[], nargs="*", help="list of files to check, ex: /var/log/messages /var/log/mail.log")
     args = parser.parse_args()
 
-    stale = stale_files(args.files)
+    stale = list_stale(args.files)
     for s in stale: print s
     sys.exit(len(stale))
