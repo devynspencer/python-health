@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import sys
 import time
 
 def stale_at(time, minutes):
@@ -24,5 +25,6 @@ if __name__ == "__main__":
     parser.add_argument("files", default=[], nargs="*", help="list of files to check, ex: /var/log/messages /var/log/mail.log")
     args = parser.parse_args()
 
-    for stale in stale_files(args.files):
-        print stale
+    stale = stale_files(args.files)
+    for s in stale: print s
+    sys.exit(len(stale))
