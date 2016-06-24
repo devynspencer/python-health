@@ -11,6 +11,16 @@ def stale_at(time, minutes):
 def modified_at(file):
     return os.path.getctime(file)
 
+def seconds_stale(file):
+    age = stale_at(time.time(), args.threshold) - modified_at(file)
+    return max(0, age)
+
+def minutes_stale(file):
+    return seconds_stale(file) / 60
+
+def hours_stale(file):
+    return minutes_stale(file) / 60
+
 def is_stale(file):
     return stale_at(time.time(), args.threshold) > modified_at(file)
 
@@ -27,5 +37,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     stale = list_stale(args.files)
-    for s in stale: print s
+    for s in stale: print "file: {0}, hours stale: {1}".format(s, int(hours_stale(s)))
     sys.exit(len(stale))
